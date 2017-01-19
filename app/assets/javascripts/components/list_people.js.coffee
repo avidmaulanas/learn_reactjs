@@ -1,25 +1,10 @@
 class @ListPeople extends React.Component
-  # @propTypes =
-  #   name: React.PropTypes.string
-  #   email: React.PropTypes.string
-
-  deleteProduct: (index) ->
-    { people } = @props
-    people.splice(index, 1);
-    @setState(people: people)
-
-  editProduct: (index) ->
-    person = @props.people[index]
-    console.log(person)
-    name = person.name
-    price = person.price
 
   render: ->
-    # console.log(@props.people)
     list_people = []
     @props.people.forEach (person, index) =>
       list_people.push(
-        <TableRow key={index} person={person} onEdit={@editProduct.bind(@, index)} onDelete={@deleteProduct.bind(@, index)} />
+        <TableRow key={index} person={person} editPerson={@props.editPerson} />
       )
     <div>
       <h1>Listing People</h1>
@@ -40,11 +25,11 @@ class @ListPeople extends React.Component
 
 class @TableRow extends React.Component
   render: ->
-    { person, onEdit, onDelete } = @props
+    { person, editPerson } = @props
     { id, name, email } = person
     <tr>
       <td>{name}</td>
       <td>{email}</td>
-      <td><a href={Routes.person_path(person.id)}>Edit</a></td>
-      <td><a href='javascript:void(0)' onClick={onDelete}>Delete</a></td>
+      <td><a href='javascript:void(0)' onClick={editPerson.bind(@, id)}>Edit</a></td>
+      <td><a href='javascript:void(0)'>Delete</a></td>
     </tr>

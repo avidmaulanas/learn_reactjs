@@ -1,40 +1,53 @@
 class @FormPerson extends React.Component
-  @propTypes =
-    name: React.PropTypes.string
-    email: React.PropTypes.string
-
   constructor: (props) ->
     super(props)
     @state = {
-      people: []
-      name: ''
-      email:''
+      person: @props.person
+      isEdit: @props.isEdit
     }
 
-  handleSubmit: (person) ->
-    console.log(@state)
-    # formData = $('.form-person').serialize()
-    # $.ajax
-    #   url: Routes.people_path()
-    #   method: 'POST'
-    #   dataType: 'json'
-    #   data: formData
-    #   success: (data) ->
-    #     console.log(data)
-    #     console.log(emptyForm)
+  componentWillReceiveProps: (nextProps) ->
+    @setState
+      person: nextProps.person
+
+  handleSubmit: =>
+    formData = $('.form-person').serialize()
+    # console.log(@state)
+    $.ajax
+      url: Routes.people_path()
+      method: 'POST'
+      dataType: 'json'
+      data: formData
+      success: (data) =>
+        @props.addPerson(data)
+
+  handleEdit: =>
+    console.log('editing')
+
+
+  changeInput: (field, event) =>
+    person = @state.person
+
+    person[field] = event.target.value
+
+    @setState
+      person: person
+      isEdit: @props.isEdit
 
   render: ->
+    console.log(@state)
     <div>
       <h3>New Person</h3>
       <form className='form-person'>
         <div className='field'>
-          <input name='person[name]' type='text' value={@state.name}/>
+          <input name='person[name]' type='text' value={@state.person.name} onChange={@changeInput.bind(@, 'name')} />
         </div>
         <div className='field'>
-          <input name= 'person[email]' type='text' value={@state.email}/>
+          <input name= 'person[email]' type='text' value={@state.person.email} onChange={@changeInput.bind(@, 'email')} />
         </div>
         <div className='actions'>
-          <button type='button' onClick={@handleSubmit}>Submit</button>
+          { !@state.isEdit && <button id='insertButton' onClick={@handleSubmit}>Submit</button> }
+          { @state.isEdit && <button id='updateButton' onClick={@handleEdit}>Update</button> }
         </div>
       </form>
     </div>
