@@ -21,10 +21,15 @@ class @People extends React.Component
       people: @state.people.concat(data)
       person: {name: '', email: ''}
 
-  deleteProduct: (index) =>
-    { people } = @props
-    people.splice(index, 1);
-    @setState(people: people)
+  deletePerson: (id) =>
+    $.ajax
+      url: Routes.person_path(id)
+      method: 'DELETE'
+      dataType: 'json'
+      success: (data) =>
+        people = @props.people.filter (person) -> person.id != id
+        @setState
+          people: people
 
   editPerson: (id) =>
     person = $.grep @props.people, (person) -> person.id == id
@@ -48,5 +53,5 @@ class @People extends React.Component
   render: ->
     <div>
       <FormPerson people={@state.people} person={@state.person} addPerson={@addPerson} isEdit={@state.isEdit} updatePerson={@updatePerson}/>
-      <ListPeople people={@state.people} editPerson={@editPerson} />
+      <ListPeople people={@state.people} editPerson={@editPerson} deletePerson={@deletePerson}/>
     </div>
