@@ -9,17 +9,20 @@ class @People extends React.Component
         email: ''
       }
       isEdit: false
+      notice: ''
     }
 
-  componenWillUpdate: (nextProps, nextState) ->
-    console.log(nextProps)
-    console.log(nextState)
 
   # Handle success add person
   addPerson: (data) =>
     @setState
       people: @state.people.concat(data)
       person: {name: '', email: ''}
+      notice: "Person ##{data.id} was successfully created"
+    setTimeout (->
+      $('#notice').fadeOut()
+      return
+    ), 5000
 
   deletePerson: (id) =>
     $.ajax
@@ -34,18 +37,23 @@ class @People extends React.Component
             name: ''
             email: ''
           isEdit: false
+          notice: "Person ##{id} was successfully deleted"
+        setTimeout (->
+          $('#notice').fadeOut()
+          return
+        ), 5000
 
   editPerson: (id) =>
-    person = $.grep @props.people, (person) -> person.id == id
+    person = $.grep @state.people, (person) -> person.id == id
     @setState
       person: person[0]
       isEdit: true
 
   updatePerson: (data) =>
     people = @state.people
-    $.each people, (key, value) ->
-      if key == 'id' && value == data.id
-        people[key] = data
+    for person, index in people
+      if person.id == data.id
+        people[index] = data
 
     @setState
       people: people
@@ -53,9 +61,16 @@ class @People extends React.Component
         name: ''
         email: ''
       isEdit: false
+      notice: "Person ##{data.id} was successfully updated"
+
+    setTimeout (->
+      $('#notice').fadeOut()
+      return
+    ), 5000
 
   render: ->
     <div>
+      <p id='notice'>{@state.notice}</p>
       <FormPerson people={@state.people} person={@state.person} addPerson={@addPerson} isEdit={@state.isEdit} updatePerson={@updatePerson}/>
       <ListPeople people={@state.people} editPerson={@editPerson} deletePerson={@deletePerson}/>
     </div>

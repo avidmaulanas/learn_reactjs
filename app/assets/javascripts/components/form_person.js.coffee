@@ -4,6 +4,7 @@ class @FormPerson extends React.Component
     @state = {
       person: @props.person
       isEdit: @props.isEdit
+      isError
     }
 
   componentWillReceiveProps: (nextProps) ->
@@ -52,10 +53,10 @@ class @FormPerson extends React.Component
 
       <form className='form-person'>
         <div className='field'>
-          <input name='person[name]' type='text' value={@state.person.name} onChange={@changeInput.bind(@, 'name')} />
+          <input name='person[name]' id='name' type='text' value={@state.person.name} onChange={@changeInput.bind(@, 'name')} />
         </div>
         <div className='field'>
-          <input name= 'person[email]' type='text' value={@state.person.email} onChange={@changeInput.bind(@, 'email')} />
+          <input name= 'person[email]' id='email' type='text' value={@state.person.email} onChange={@changeInput.bind(@, 'email')} />
         </div>
         <div className='actions'>
           { !@state.isEdit && <button id='insertButton' type='button' onClick={@handleSubmit}>Submit</button> }
