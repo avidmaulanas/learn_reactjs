@@ -2,20 +2,17 @@ class @FormPerson extends React.Component
   constructor: (props) ->
     super(props)
     @state = {
-      people: @props.people
       person: @props.person
       isEdit: @props.isEdit
     }
 
   componentWillReceiveProps: (nextProps) ->
     @setState
-      people: nextProps.people
       person: nextProps.person
       isEdit: nextProps.isEdit
 
   handleSubmit: =>
     formData = $('.form-person').serialize()
-    # console.log(@state)
     $.ajax
       url: Routes.people_path()
       method: 'POST'
@@ -25,9 +22,7 @@ class @FormPerson extends React.Component
         @props.addPerson(data)
 
   handleEdit: =>
-    console.log('editing')
     formData = $('.form-person').serialize()
-    # console.log(@state)
     $.ajax
       url: Routes.person_path(@state.person.id)
       method: 'PUT'
@@ -35,19 +30,7 @@ class @FormPerson extends React.Component
       data:
         person: @state.person
       success: (data) =>
-        # debugger
-        # console.log(@state)
-        people = @state.people
-        $.each people, (key, value) ->
-          if key == 'id' && value == @state.person.id
-            people[key] = @state.person.id
-
-        @setState
-          people: people
-          person:
-            name: ''
-            email: ''
-          isEdit: false
+        @props.updatePerson(data)
 
   changeInput: (field, event) =>
     person = @state.person
@@ -59,9 +42,14 @@ class @FormPerson extends React.Component
       isEdit: @props.isEdit
 
   render: ->
-    # console.log(@state)
     <div>
-      <h3>New Person</h3>
+      {
+        if !@state.isEdit
+          <h3>New Person</h3>
+        else
+          <h3>Edit Person #{@state.person.id}</h3>
+      }
+
       <form className='form-person'>
         <div className='field'>
           <input name='person[name]' type='text' value={@state.person.name} onChange={@changeInput.bind(@, 'name')} />

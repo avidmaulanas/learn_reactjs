@@ -11,6 +11,7 @@ class @ListPeople extends React.Component
       <table>
         <thead>
           <tr>
+            <th>{'#'}</th>
             <th>Name</th>
             <th>Email</th>
             <th colSpan="3"></th>
@@ -28,6 +29,7 @@ class @TableRow extends React.Component
     { person, editPerson } = @props
     { id, name, email } = person
     <tr>
+      <td>{id}</td>
       <td>{name}</td>
       <td>{email}</td>
       <td><a href='javascript:void(0)' onClick={editPerson.bind(@, id)}>Edit</a></td>
