@@ -30,6 +30,6 @@ class @People extends React.Component
 
   render: ->
     <div>
-      <FormPerson person={@state.person} addPerson={@addPerson} isEdit={@state.isEdit}/>
-      <ListPeople people={@state.people} editPerson={@editPerson}/>
+      <FormPerson people={@state.people} person={@state.person} addPerson={@addPerson} isEdit={@state.isEdit}/>
+      <ListPeople people={@state.people} editPerson={@editPerson} updatePerson={@updatePerson}/>
     </div>
