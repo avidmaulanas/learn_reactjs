@@ -30,6 +30,10 @@ class @People extends React.Component
         people = @props.people.filter (person) -> person.id != id
         @setState
           people: people
+          person:
+            name: ''
+            email: ''
+          isEdit: false
 
   editPerson: (id) =>
     person = $.grep @props.people, (person) -> person.id == id
