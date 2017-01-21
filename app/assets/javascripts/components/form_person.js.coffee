@@ -4,7 +4,6 @@ class @FormPerson extends React.Component
     @state = {
       person: @props.person
       isEdit: @props.isEdit
-      isError
     }
 
   componentWillReceiveProps: (nextProps) ->

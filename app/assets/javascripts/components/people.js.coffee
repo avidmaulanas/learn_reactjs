@@ -39,7 +39,7 @@ class @People extends React.Component
           isEdit: false
           notice: "Person ##{id} was successfully deleted"
         setTimeout (->
-          $('#notice').fadeOut()
+          $('#notice').fadeOut().html('').show()
           return
         ), 5000
 
@@ -64,7 +64,7 @@ class @People extends React.Component
       notice: "Person ##{data.id} was successfully updated"
 
     setTimeout (->
-      $('#notice').fadeOut()
+      $('#notice').fadeOut().html('').show()
       return
     ), 5000
 
