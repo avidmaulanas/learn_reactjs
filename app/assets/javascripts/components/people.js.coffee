@@ -38,8 +38,9 @@ class @People extends React.Component
             email: ''
           isEdit: false
           notice: "Person ##{id} was successfully deleted"
+        $('#notice').show()
         setTimeout (->
-          $('#notice').fadeOut().html('').show()
+          $('#notice').fadeOut()
           return
         ), 5000
 
@@ -63,8 +64,9 @@ class @People extends React.Component
       isEdit: false
       notice: "Person ##{data.id} was successfully updated"
 
+    $('#notice').show()
     setTimeout (->
-      $('#notice').fadeOut().html('').show()
+      $('#notice').fadeOut()
       return
     ), 5000
 
